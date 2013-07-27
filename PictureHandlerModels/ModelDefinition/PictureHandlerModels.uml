@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner"
+  dslVersion="1.0.0.0"
+  Id="ba49c91b-9f25-447d-b916-4454f894eba5"
+  name="PictureHandlerModels" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="c69b7d93-bc70-458c-9e11-3f437608ce09">
+      <body>For each file found</body>
+    </comment>
+  </ownedCommentsInternal>
+  <profileInstances>
+    <packageHasProfileInstances
+      Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b">
+      <profileInstance
+        Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791"
+        name="StandardProfileL2" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="29349502-908c-4fda-9054-c48619c59ed0">
+      <profileInstance
+        Id="532ea607-fb19-44b8-8502-3351b05452be"
+        name="StandardProfileL3" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <activity
+        Id="01e48818-bfdf-4d68-8d89-4df6203342ee"
+        name="FullConversionFlow"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isReentrant="false"
+        isReadOnly="false"
+        isSingleExecution="false">
+        <nodes>
+          <initialNode
+            Id="6605407d-ba70-43d3-80b4-54c6045cbc8a"
+            name="Initial1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="5b2be684-e0ce-47ad-89c4-46a0fea8e515"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="51ac9167-0769-4265-9bd2-7659c515b043"
+                  LastKnownName="Look up files for conversion"
+                  LastKnownLocation="PictureHandlerModels.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <opaqueAction
+            Id="51ac9167-0769-4265-9bd2-7659c515b043"
+            name="Look up files for conversion"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="a494874e-c16e-4a23-aac5-2d5250c1519f"
+                isLeaf="false">
+                <forkNodeMoniker
+                  Id="6504e753-71fb-46ba-b444-d42dd2687019"
+                  LastKnownName="Fork1"
+                  LastKnownLocation="PictureHandlerModels.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <forkNode
+            Id="6504e753-71fb-46ba-b444-d42dd2687019"
+            name="Fork1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="e8db7d06-8816-4ab1-98e7-9226f1963aa1"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="350ff46e-c238-409b-8017-740f4aa131fb"
+                  LastKnownName="Copy file to temporary location"
+                  LastKnownLocation="PictureHandlerModels.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+          <opaqueAction
+            Id="350ff46e-c238-409b-8017-740f4aa131fb"
+            name="Copy file to temporary location"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="34e7eb85-5aac-423f-aae3-ab4a6803e128"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="57986eb3-8048-4ede-9237-66d604e66f9d"
+                  LastKnownName="Rename file based on naming conventions"
+                  LastKnownLocation="PictureHandlerModels.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="57986eb3-8048-4ede-9237-66d604e66f9d"
+            name="Rename file based on naming conventions"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="b0d93ff7-1b46-419b-87da-7751533313f5"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="cfded1ca-6951-422e-be52-5affcbee2d84"
+                  LastKnownName="Delete original file"
+                  LastKnownLocation="PictureHandlerModels.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="e0d595a5-cc85-4698-b0c5-6763594c7ab9"
+            name="Shrink file with photoshop"
+            isLeaf="false" />
+          <opaqueAction
+            Id="3553e207-5ff3-41a7-916a-a98f3011f863"
+            name="Face recognition with Google"
+            isLeaf="false" />
+          <opaqueAction
+            Id="cc798855-6a62-46b1-b013-9e4811d91d9f"
+            name="Action1"
+            isLeaf="false" />
+          <opaqueAction
+            Id="cfded1ca-6951-422e-be52-5affcbee2d84"
+            name="Delete original file"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="a0646d4e-8d5f-448a-87df-51b5f8a2140e"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="e0d595a5-cc85-4698-b0c5-6763594c7ab9"
+                  LastKnownName="Shrink file with photoshop"
+                  LastKnownLocation="PictureHandlerModels.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+        </nodes>
+      </activity>
+    </packageHasNamedElement>
+  </packagedElements>
+  <primitiveType
+    Id="220a3521-e091-4221-bae9-3ef9018e845c"
+    name="Integer"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+    name="Boolean"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+    name="String"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="3ab42e7d-4969-445a-b209-471f5cb8209c"
+    name="UnlimitedNatural"
+    isAbstract="false"
+    isLeaf="false" />
+</modelStoreModel>

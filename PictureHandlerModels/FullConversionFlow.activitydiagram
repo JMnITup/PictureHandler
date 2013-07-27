@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="17d1799c-b73b-4530-a1a7-85c0c77ba1d0" name="FullConversionFlow" linkedPackageId="b0185f01-70f0-41d9-9666-c2953e9536a0" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+  <ownedCommentsInternal>
+    <comment Id="a59d5793-60db-4a1e-b590-70e73d1df542">
+      <elementDefinition Id="c69b7d93-bc70-458c-9e11-3f437608ce09" />
+      <body>For each file found</body>
+    </comment>
+  </ownedCommentsInternal>
+  <profileInstances>
+    <packageHasProfileInstances Id="6c3fb837-de4b-4662-bc9c-c2b80d9aba65">
+      <profileInstance Id="42cf4ce8-7f40-48f1-9413-78b2dcfa3ce9" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="49eafb55-512a-4a1f-8328-50f08f38098a">
+      <profileInstance Id="9a1a5891-2339-4b3b-a0d6-30aea080df06" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <activityRootModelHasActivity>
+      <activity Id="247de913-c158-4b8f-b16d-94b0a14d1ec8" name="FullConversionFlow" isAbstract="false" isLeaf="false" isActiveClass="false" isReentrant="false" isReadOnly="false" isSingleExecution="false">
+        <elementDefinition Id="01e48818-bfdf-4d68-8d89-4df6203342ee" />
+        <nodes>
+          <initialNode Id="08b5bdf9-0c09-475a-8aa9-95096fccbdd9" name="Initial1" isLeaf="false">
+            <elementDefinition Id="6605407d-ba70-43d3-80b4-54c6045cbc8a" />
+            <flowNodeTargets>
+              <controlFlow Id="e111be8c-47b9-4605-b7cc-53d48b68084e" isLeaf="false">
+                <opaqueActionMoniker Id="5e832b8d-ec3c-42b7-a8c8-2614c8befc4c" LastKnownName="Look up files for conversion" />
+                <elementDefinition Id="5b2be684-e0ce-47ad-89c4-46a0fea8e515" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <opaqueAction Id="5e832b8d-ec3c-42b7-a8c8-2614c8befc4c" name="Look up files for conversion" isLeaf="false">
+            <elementDefinition Id="51ac9167-0769-4265-9bd2-7659c515b043" />
+            <flowNodeTargets>
+              <controlFlow Id="e4fa76cb-e60e-4918-b690-9cfa0c0dad39" isLeaf="false">
+                <forkNodeMoniker Id="ccf64fc4-718a-44a7-ba8a-4a05a246434a" LastKnownName="Fork1" />
+                <elementDefinition Id="a494874e-c16e-4a23-aac5-2d5250c1519f" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <forkNode Id="ccf64fc4-718a-44a7-ba8a-4a05a246434a" name="Fork1" isLeaf="false">
+            <elementDefinition Id="6504e753-71fb-46ba-b444-d42dd2687019" />
+            <flowNodeTargets>
+              <controlFlow Id="c9155cb4-8247-4a9b-98af-84acc007e89f" isLeaf="false">
+                <opaqueActionMoniker Id="8ddbc75d-a4ab-4d73-a1aa-75448e61bfa7" LastKnownName="Copy file to temporary location" />
+                <elementDefinition Id="e8db7d06-8816-4ab1-98e7-9226f1963aa1" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+          <opaqueAction Id="8ddbc75d-a4ab-4d73-a1aa-75448e61bfa7" name="Copy file to temporary location" isLeaf="false">
+            <elementDefinition Id="350ff46e-c238-409b-8017-740f4aa131fb" />
+            <flowNodeTargets>
+              <controlFlow Id="0da5b64e-34f7-4240-93e5-622b9cee0b21" isLeaf="false">
+                <opaqueActionMoniker Id="83f7c011-e228-4516-8ae0-f1ea31fd21e5" LastKnownName="Rename file based on naming conventions" />
+                <elementDefinition Id="34e7eb85-5aac-423f-aae3-ab4a6803e128" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="83f7c011-e228-4516-8ae0-f1ea31fd21e5" name="Rename file based on naming conventions" isLeaf="false">
+            <elementDefinition Id="57986eb3-8048-4ede-9237-66d604e66f9d" />
+            <flowNodeTargets>
+              <controlFlow Id="76f01a9a-558d-4092-8796-55e4a9733984" isLeaf="false">
+                <opaqueActionMoniker Id="06a9fd3a-9418-4497-8c02-5db0cffcb7a4" LastKnownName="Delete original file" />
+                <elementDefinition Id="b0d93ff7-1b46-419b-87da-7751533313f5" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="c2c30e80-beda-45dd-930d-e07f924bcc21" name="Shrink file with photoshop" isLeaf="false">
+            <elementDefinition Id="e0d595a5-cc85-4698-b0c5-6763594c7ab9" />
+          </opaqueAction>
+          <opaqueAction Id="8e63de89-c193-4910-8a0b-ba4b78a223b6" name="Face recognition with Google" isLeaf="false">
+            <elementDefinition Id="3553e207-5ff3-41a7-916a-a98f3011f863" />
+          </opaqueAction>
+          <opaqueAction Id="62d5436a-08e5-4f37-937a-9f5e8dbead08" name="Action1" isLeaf="false">
+            <elementDefinition Id="cc798855-6a62-46b1-b013-9e4811d91d9f" />
+          </opaqueAction>
+          <opaqueAction Id="06a9fd3a-9418-4497-8c02-5db0cffcb7a4" name="Delete original file" isLeaf="false">
+            <elementDefinition Id="cfded1ca-6951-422e-be52-5affcbee2d84" />
+            <flowNodeTargets>
+              <controlFlow Id="5440da4d-44bd-4d2b-b5b2-a641aefe670a" isLeaf="false">
+                <opaqueActionMoniker Id="c2c30e80-beda-45dd-930d-e07f924bcc21" LastKnownName="Shrink file with photoshop" />
+                <elementDefinition Id="a0646d4e-8d5f-448a-87df-51b5f8a2140e" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+        </nodes>
+      </activity>
+    </activityRootModelHasActivity>
+  </packagedElements>
+  <package Id="b0185f01-70f0-41d9-9666-c2953e9536a0" name="PictureHandlerModels">
+    <elementDefinition Id="ba49c91b-9f25-447d-b916-4454f894eba5" />
+  </package>
+</activityRootModel>

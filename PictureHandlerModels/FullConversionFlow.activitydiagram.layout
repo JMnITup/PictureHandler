@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<activityDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="FullConversionFlow">
+  <activityRootModelMoniker Id="17d1799c-b73b-4530-a1a7-85c0c77ba1d0" />
+  <nestedChildShapes>
+    <initialNodeShape Id="93509c3c-2c67-47f3-be8b-55cb17b998a1" absoluteBounds="2.5, 0.75, 0.125, 0.125" customColor="89, 89, 89">
+      <initialNodeMoniker Id="08b5bdf9-0c09-475a-8aa9-95096fccbdd9" LastKnownName="Initial1" />
+    </initialNodeShape>
+    <actionShape Id="2a28e9b2-d511-4558-9a6a-fe2aa8a8d1dd" absoluteBounds="2, 1.25, 1.125, 0.375" customColor="161, 199, 231">
+      <opaqueActionMoniker Id="5e832b8d-ec3c-42b7-a8c8-2614c8befc4c" LastKnownName="Look up files for conversion" />
+    </actionShape>
+    <forkNodeShape Id="96f091e7-581a-475e-a6d0-1b2bcd9ce915" absoluteBounds="2, 2.125, 1.125, 0.125" customColor="32, 32, 32">
+      <forkNodeMoniker Id="ccf64fc4-718a-44a7-ba8a-4a05a246434a" LastKnownName="Fork1" />
+      <relativeChildShapes />
+    </forkNodeShape>
+    <controlFlowConnector edgePoints="[(2.5625 : 0.875); (2.5625 : 1.25)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="Black">
+      <controlFlowMoniker Id="e111be8c-47b9-4605-b7cc-53d48b68084e" />
+      <relativeChildShapes />
+      <nodes>
+        <initialNodeShapeMoniker Id="93509c3c-2c67-47f3-be8b-55cb17b998a1" />
+        <actionShapeMoniker Id="2a28e9b2-d511-4558-9a6a-fe2aa8a8d1dd" />
+      </nodes>
+    </controlFlowConnector>
+    <controlFlowConnector edgePoints="[(2.53125 : 1.625); (2.53125 : 2.125)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="Black">
+      <controlFlowMoniker Id="e4fa76cb-e60e-4918-b690-9cfa0c0dad39" />
+      <relativeChildShapes />
+      <nodes>
+        <actionShapeMoniker Id="2a28e9b2-d511-4558-9a6a-fe2aa8a8d1dd" />
+        <forkNodeShapeMoniker Id="96f091e7-581a-475e-a6d0-1b2bcd9ce915" />
+      </nodes>
+    </controlFlowConnector>
+    <commentShape Id="1ffb857e-adc8-4539-be38-3da7f1200a8a" absoluteBounds="3.125, 1.875, 1.25, 0.375" customColor="251, 247, 200">
+      <commentMoniker Id="a59d5793-60db-4a1e-b590-70e73d1df542" />
+      <relativeChildShapes />
+    </commentShape>
+    <actionShape Id="0dd39fde-f3a1-4503-a3dd-99148330bdd7" absoluteBounds="2, 2.625, 1.125, 0.375" customColor="161, 199, 231">
+      <opaqueActionMoniker Id="8ddbc75d-a4ab-4d73-a1aa-75448e61bfa7" LastKnownName="Copy file to temporary location" />
+    </actionShape>
+    <actionShape Id="0903a5be-1754-49cb-83e3-766e4b4ef811" absoluteBounds="2.125, 3.25, 1.125, 0.625" customColor="161, 199, 231">
+      <opaqueActionMoniker Id="83f7c011-e228-4516-8ae0-f1ea31fd21e5" LastKnownName="Rename file based on naming conventions" />
+    </actionShape>
+    <controlFlowConnector edgePoints="[(2.5625 : 2.25); (2.5625 : 2.625)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="Black">
+      <controlFlowMoniker Id="c9155cb4-8247-4a9b-98af-84acc007e89f" />
+      <relativeChildShapes />
+      <nodes>
+        <forkNodeShapeMoniker Id="96f091e7-581a-475e-a6d0-1b2bcd9ce915" />
+        <actionShapeMoniker Id="0dd39fde-f3a1-4503-a3dd-99148330bdd7" />
+      </nodes>
+    </controlFlowConnector>
+    <controlFlowConnector edgePoints="[(2.625 : 3); (2.625 : 3.25)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="Black">
+      <controlFlowMoniker Id="0da5b64e-34f7-4240-93e5-622b9cee0b21" />
+      <relativeChildShapes />
+      <nodes>
+        <actionShapeMoniker Id="0dd39fde-f3a1-4503-a3dd-99148330bdd7" />
+        <actionShapeMoniker Id="0903a5be-1754-49cb-83e3-766e4b4ef811" />
+      </nodes>
+    </controlFlowConnector>
+    <actionShape Id="38ad6e61-4655-4401-9d69-99f62c072665" absoluteBounds="2, 5.5, 1.125, 0.375" customColor="161, 199, 231">
+      <opaqueActionMoniker Id="c2c30e80-beda-45dd-930d-e07f924bcc21" LastKnownName="Shrink file with photoshop" />
+    </actionShape>
+    <actionShape Id="56544eb0-817f-4a78-9f30-00f0db188b71" absoluteBounds="5.25, 5.875, 1.125, 0.375" customColor="161, 199, 231">
+      <opaqueActionMoniker Id="8e63de89-c193-4910-8a0b-ba4b78a223b6" LastKnownName="Face recognition with Google" />
+    </actionShape>
+    <actionShape Id="0c7b4192-b484-4b20-8778-f58ea1498e84" absoluteBounds="2.375, 6.5, 1.125, 0.375" customColor="161, 199, 231">
+      <opaqueActionMoniker Id="62d5436a-08e5-4f37-937a-9f5e8dbead08" LastKnownName="Action1" />
+    </actionShape>
+    <actionShape Id="6e60db7e-4387-4b4f-8545-d3f9e6a11a78" absoluteBounds="4.625, 4.25, 1.125, 0.375" customColor="161, 199, 231">
+      <opaqueActionMoniker Id="06a9fd3a-9418-4497-8c02-5db0cffcb7a4" LastKnownName="Delete original file" />
+    </actionShape>
+    <controlFlowConnector edgePoints="[(3.25 : 3.5625); (5.1875 : 3.5625); (5.1875 : 4.25)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="Black">
+      <controlFlowMoniker Id="76f01a9a-558d-4092-8796-55e4a9733984" />
+      <relativeChildShapes />
+      <nodes>
+        <actionShapeMoniker Id="0903a5be-1754-49cb-83e3-766e4b4ef811" />
+        <actionShapeMoniker Id="6e60db7e-4387-4b4f-8545-d3f9e6a11a78" />
+      </nodes>
+    </controlFlowConnector>
+    <controlFlowConnector edgePoints="[(4.625 : 4.4375); (2.5625 : 4.4375); (2.5625 : 5.5)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="Black">
+      <controlFlowMoniker Id="5440da4d-44bd-4d2b-b5b2-a641aefe670a" />
+      <relativeChildShapes />
+      <nodes>
+        <actionShapeMoniker Id="6e60db7e-4387-4b4f-8545-d3f9e6a11a78" />
+        <actionShapeMoniker Id="38ad6e61-4655-4401-9d69-99f62c072665" />
+      </nodes>
+    </controlFlowConnector>
+  </nestedChildShapes>
+</activityDiagram>
