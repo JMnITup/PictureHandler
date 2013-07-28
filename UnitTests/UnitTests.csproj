@@ -36,11 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FlickrNet, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2491df59efa5d132, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\FlickrNet\FlickrNet.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.LoadTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
   </ItemGroup>
@@ -81,10 +76,6 @@
     <ProjectReference Include="..\PictureHandlerLibrary\PictureHandlerLibrary.csproj">
       <Project>{71ACDC46-F442-4395-95D0-052E54166605}</Project>
       <Name>PictureHandlerLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PictureHandler\PictureHandlerUI.csproj">
-      <Project>{8d41d8fc-eaa4-4b8b-9b30-438707c6dc32}</Project>
-      <Name>PictureHandlerUI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
