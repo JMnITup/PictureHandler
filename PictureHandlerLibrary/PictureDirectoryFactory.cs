@@ -30,7 +30,7 @@ namespace PictureHandlerLibrary {
 		}
 
 		public IPictureDirectory GetDirectory(string directoryName) {
-			var dir = new PictureDirectory(directoryName);
+			var dir = new PictureDirectory(directoryName, _fileSystem);
 			return dir;
 		}
 	}

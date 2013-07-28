@@ -16,22 +16,25 @@ namespace UnitTests {
 	/*[DeploymentItem("TestData\\eula.1041.txt", "TestData")]
 	[DeploymentItem("TestData\\IMG_6867.JPG", "TestData")]*/
 	public class CompressionTests {
-		private readonly IPictureDirectoryFactory _directoryFactory = new PictureDirectoryFactory();
-		private readonly IFileHandlerFactory _fileHandlerFactory = new FileHandlerFactory();
+		private IPictureDirectoryFactory _directoryFactory = new PictureDirectoryFactory();
+		private IFileHandlerFactory _fileHandlerFactory = new FileHandlerFactory();
+		private MockFileSystem _fileSystem;
 
-		/*
-		// Use TestInitialize to run code before running each test 
 		[TestInitialize]
 		public void MyTestInitialize() {
-			var fs = new FileSystem();
+			_fileSystem = new MockFileSystem();
+			_directoryFactory = new PictureDirectoryFactory(_fileSystem);
+			_fileHandlerFactory = new FileHandlerFactory(_fileSystem);
+			/*var fs = new FileSystem();
 			fs.DeleteDirectoryAndAllFiles(TestConstants.ExistingDirectory);
 			fs.DeleteDirectoryAndAllFiles(TestConstants.NewDirectory);
 			fs.DeleteDirectoryAndAllFiles(TestConstants.TempDirectory);
 			fs.DeleteDirectoryAndAllFiles(TestConstants.NonExistingDirectory);
 			fs.CreateDirectory(TestConstants.ExistingDirectory);
-			fs.CopyFiles("TestData", TestConstants.ExistingDirectory);
+			fs.CopyFiles("TestData", TestConstants.ExistingDirectory);*/
 		}
 
+		/*
 		[ClassCleanup]
 		public static void MyClassCleanup() {
 			var fs = new FileSystem();
@@ -40,25 +43,24 @@ namespace UnitTests {
 			fs.DeleteDirectoryAndAllFiles(TestConstants.TempDirectory);
 			fs.DeleteDirectoryAndAllFiles(TestConstants.NonExistingDirectory);
 		}
-		 */
+		*/
 
 		[TestMethod]
 		public void PerformCompressAndMoveRemovesOldFileAndCreatesNew() {
 			// Arrange
 			var targetDirectory = new MockPictureDirectory {Directory = "\\mockdir"};
 
-			IFileSystem fileSystem = new MockFileSystem();
-			((MockFileSystem) fileSystem).AddFile("\\mockdir\\test_RENAMED_2353.JPG", 100000);
+			((MockFileSystem)_fileSystem).AddFile("\\mockdir\\test_RENAMED_2353.JPG", 100000);
 
-			var mockCompressor = new MockCompress(fileSystem);
-			var fileHandler = new JpgFileHandler("\\mockdir\\test_RENAMED_2353.JPG", fileSystem: fileSystem, compressor: mockCompressor);
+			var mockCompressor = new MockCompress(_fileSystem);
+			var fileHandler = new JpgFileHandler("\\mockdir\\test_RENAMED_2353.JPG", fileSystem: _fileSystem, compressor: mockCompressor);
 
 			// Act
 			fileHandler.PerformCompressAndMove(targetDirectory);
 
 			// Assert
-			Assert.IsTrue(!fileSystem.FileExists("\\mockdir\\test_RENAMED_2353.JPG"));
-			Assert.IsTrue(fileSystem.FileExists("\\mockdir\\test_COMPRESSED_2353.JPG"));
+			Assert.IsTrue(!_fileSystem.FileExists("\\mockdir\\test_RENAMED_2353.JPG"));
+			Assert.IsTrue(_fileSystem.FileExists("\\mockdir\\test_COMPRESSED_2353.JPG"));
 		}
 
 /*		[TestMethod]
@@ -89,15 +91,14 @@ namespace UnitTests {
 		[TestMethod]
 		public void DoNotCompressAlreadyCompressedFiles() {
 			// Arrange
-			var fileSystem = new MockFileSystem();
-			fileSystem.AddFile(TestConstants.ExistingJpgFullFileName, 100000, new DateTime(2013, 2, 2));
+			_fileSystem.AddFile(TestConstants.ExistingJpgFullFileName, 100000, new DateTime(2013, 2, 2));
 
-			IFileHandler fileHandler = _fileHandlerFactory.GetFileHandler(TestConstants.ExistingJpgFullFileName, fileSystem, new MockCompress(fileSystem),
-																																		new MockExifReader(fileSystem));
+			IFileHandler fileHandler = _fileHandlerFactory.GetFileHandler(TestConstants.ExistingJpgFullFileName, _fileSystem, new MockCompress(_fileSystem),
+																																		new MockExifReader(_fileSystem));
 			//IPictureDirectory tempDir = _directoryFactory.GetOrCreateDirectory(TestConstants.TempDirectory);
-			var tempDir = new MockPictureDirectory {Directory = TestConstants.TempDirectory};
+			var tempDir = _directoryFactory.GetOrCreateDirectory(TestConstants.TempDirectory);
 			//IPictureDirectory newDir = _directoryFactory.GetOrCreateDirectory(TestConstants.NewDirectory);
-			var newDir = new MockPictureDirectory {Directory = TestConstants.NewDirectory};
+			var newDir = _directoryFactory.GetOrCreateDirectory(TestConstants.NewDirectory);
 			string originalFileName = fileHandler.FileName;
 			string tempFileName = fileHandler.PerformRenameAndMove(tempDir);
 			string compressedFileName = fileHandler.PerformCompressAndMove(newDir);
@@ -118,11 +119,10 @@ namespace UnitTests {
 		[ExpectedException(typeof (FileLoadException))]
 		public void DoNotCompressNonRenamedOriginalFile() {
 			// Arrange
-			var fileSystem = new MockFileSystem();
-			fileSystem.AddFile(TestConstants.ExistingJpgFullFileName, 100000, new DateTime(2013, 5, 29, 19, 39, 18));
+			_fileSystem.AddFile(TestConstants.ExistingJpgFullFileName, 100000, new DateTime(2013, 5, 29, 19, 39, 18));
 
-			IFileHandler fileHandler = _fileHandlerFactory.GetFileHandler(TestConstants.ExistingJpgFullFileName, fileSystem, new MockCompress(fileSystem),
-																																		new MockExifReader(fileSystem));
+			IFileHandler fileHandler = _fileHandlerFactory.GetFileHandler(TestConstants.ExistingJpgFullFileName, _fileSystem, new MockCompress(_fileSystem),
+																																		new MockExifReader(_fileSystem));
 			var newDir = new MockPictureDirectory {Directory = TestConstants.NewDirectory};
 
 
@@ -136,17 +136,16 @@ namespace UnitTests {
 		[TestMethod]
 		public void AttemptToOverwriteExistingFileInCompressedLocationThrowsIoExceptionAndResultsInNoChanges() {
 			// Arrange
-			var fileSystem = new MockFileSystem();
-			fileSystem.AddFile(TestConstants.ExistingJpgFullFileName, 100000, new DateTime(2013, 5, 29, 19, 39, 18));
+			_fileSystem.AddFile(TestConstants.ExistingJpgFullFileName, 100000, new DateTime(2013, 5, 29, 19, 39, 18));
 			const string movedFileName = TestConstants.ExistingDirectory + "\\0000-00-00_00.00.00_RENAMED_6867.JPG";
-			fileSystem.MoveFile(TestConstants.ExistingJpgFullFileName, movedFileName);
-			IFileHandler fileHandler = _fileHandlerFactory.GetFileHandler(movedFileName, fileSystem, new MockCompress(fileSystem), new MockExifReader(fileSystem));
+			_fileSystem.MoveFile(TestConstants.ExistingJpgFullFileName, movedFileName);
+			IFileHandler fileHandler = _fileHandlerFactory.GetFileHandler(movedFileName, _fileSystem, new MockCompress(_fileSystem), new MockExifReader(_fileSystem));
 			var newDir = new MockPictureDirectory {Directory = TestConstants.NewDirectory};
 
 			string expectedNewFilename = fileHandler.GetNewCompressedFileName();
-			//fileSystem.CopyFile(TestConstants.ExistingTxtFullFileName, TestConstants.NewDirectory + "\\" + expectedNewFilename);
-			fileSystem.AddFile(TestConstants.NewDirectory + "\\" + expectedNewFilename, 10453, null);
-			long blockingFileSize = fileSystem.GetFileLength(TestConstants.NewDirectory + "\\" + expectedNewFilename);
+			//_fileSystem.CopyFile(TestConstants.ExistingTxtFullFileName, TestConstants.NewDirectory + "\\" + expectedNewFilename);
+			_fileSystem.AddFile(TestConstants.NewDirectory + "\\" + expectedNewFilename, 10453, null);
+			long blockingFileSize = _fileSystem.GetFileLength(TestConstants.NewDirectory + "\\" + expectedNewFilename);
 			bool expectedExceptionCaught = false;
 
 			// Act
@@ -155,13 +154,13 @@ namespace UnitTests {
 			} catch (IOException) {
 				expectedExceptionCaught = true;
 			}
-			long newFileSize = fileSystem.GetFileLength(TestConstants.NewDirectory + "\\" + expectedNewFilename);
+			long newFileSize = _fileSystem.GetFileLength(TestConstants.NewDirectory + "\\" + expectedNewFilename);
 
 			// Assert
 			Assert.IsTrue(expectedExceptionCaught);
 			Assert.AreEqual(blockingFileSize, newFileSize);
 			Assert.AreEqual(fileHandler.FileName, movedFileName);
-			Assert.IsTrue(fileSystem.FileExists(movedFileName));
+			Assert.IsTrue(_fileSystem.FileExists(movedFileName));
 		}
 	}
 }

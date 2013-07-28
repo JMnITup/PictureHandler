@@ -14,9 +14,14 @@ namespace PictureHandlerLibrary {
 		private readonly PictureDirectoryFactory _pictureDirectoryFactory = new PictureDirectoryFactory();
 		private string _directory;
 
-		internal PictureDirectory(string directory = null) {
+		internal PictureDirectory(string directory = null, IFileSystem fileSystem = null) {
 			if (directory == null) {
 				throw new ArgumentNullException("directory");
+			}
+			if (fileSystem != null) {
+				_fileSystem = fileSystem;
+				_pictureDirectoryFactory = new PictureDirectoryFactory(fileSystem);
+				_fileHandlerFactory = new FileHandlerFactory(fileSystem);
 			}
 			Directory = directory;
 		}

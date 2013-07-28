@@ -13,24 +13,28 @@ using UnitTests.MockClasses;
 
 namespace UnitTests {
 	[TestClass]
-	[DeploymentItem("TestData\\eula.1041.txt", "TestData")]
-	[DeploymentItem("TestData\\IMG_6867.JPG", "TestData")]
+	//[DeploymentItem("TestData\\eula.1041.txt", "TestData")]
+	//[DeploymentItem("TestData\\IMG_6867.JPG", "TestData")]
 	public class PictureDirectoryTests {
-		private readonly IPictureDirectoryFactory _directoryFactory = new PictureDirectoryFactory();
-		private readonly IFileHandlerFactory _fileFactory = new FileHandlerFactory();
+		private IPictureDirectoryFactory _directoryFactory = new PictureDirectoryFactory();
+		private IFileHandlerFactory _fileHandlerFactory = new FileHandlerFactory();
+		private MockFileSystem _fileSystem;
 
-		// Use TestInitialize to run code before running each test 
 		[TestInitialize]
 		public void MyTestInitialize() {
-			var fs = new FileSystem();
+			_fileSystem = new MockFileSystem();
+			_directoryFactory = new PictureDirectoryFactory(_fileSystem);
+			_fileHandlerFactory = new FileHandlerFactory(_fileSystem);
+			/*var fs = new FileSystem();
 			fs.DeleteDirectoryAndAllFiles(TestConstants.ExistingDirectory);
 			fs.DeleteDirectoryAndAllFiles(TestConstants.NewDirectory);
 			fs.DeleteDirectoryAndAllFiles(TestConstants.TempDirectory);
 			fs.DeleteDirectoryAndAllFiles(TestConstants.NonExistingDirectory);
 			fs.CreateDirectory(TestConstants.ExistingDirectory);
-			fs.CopyFiles("TestData", TestConstants.ExistingDirectory);
+			fs.CopyFiles("TestData", TestConstants.ExistingDirectory);*/
 		}
 
+		/*
 		[ClassCleanup]
 		public static void MyClassCleanup() {
 			var fs = new FileSystem();
@@ -39,10 +43,18 @@ namespace UnitTests {
 			fs.DeleteDirectoryAndAllFiles(TestConstants.TempDirectory);
 			fs.DeleteDirectoryAndAllFiles(TestConstants.NonExistingDirectory);
 		}
+		*/
+
 
 		[TestMethod]
 		public void FactoryGetDirectoryWithExistantDirReturnsDirectory() {
+			// Arrange
+			_fileSystem.CreateDirectory(TestConstants.ExistingDirectory);
+
+			// Act
 			IPictureDirectory dir = _directoryFactory.GetDirectory(TestConstants.ExistingDirectory);
+
+			// Arrange
 			Assert.AreEqual(dir.Directory, TestConstants.ExistingDirectory);
 		}
 
@@ -63,12 +75,12 @@ namespace UnitTests {
 		[TestMethod]
 		public void GetFileListFromPictureDirectoryUsingExistingDirectoryWithFiles_HasEntries() {
 			// Arrange
-			var fileSystem = new MockFileSystem();
+			_fileSystem.CreateDirectory(TestConstants.ExistingDirectory);
+
+			var dir = new MockPictureDirectory {Directory = TestConstants.ExistingDirectory};
 
 			// Act 
 			//IPictureDirectory dir = _directoryFactory.GetDirectory(TestConstants.ExistingDirectory);
-			var dir = new MockPictureDirectory {Directory = TestConstants.ExistingDirectory};
-
 			string[] x = dir.GetFileList();
 
 			// Assert
@@ -91,6 +103,7 @@ namespace UnitTests {
 		[TestMethod]
 		public void CheckingExistanceOfExistingDirectory_IsTrue() {
 			// Arrange
+			_fileSystem.CreateDirectory(TestConstants.ExistingDirectory);
 
 			// Act
 			Assert.IsTrue(_directoryFactory.Exists(TestConstants.ExistingDirectory));
@@ -107,17 +120,16 @@ namespace UnitTests {
 		[TestMethod]
 		public void GetOrCreateCreatesNewDirectory() {
 			// Arrange
-			var fileSystem = new FileSystem();
-			string testDir = DeleteTempTestDir(fileSystem);
+			string testDir = DeleteTempTestDir(_fileSystem);
 
 			// Act
 			IPictureDirectory newDir = _directoryFactory.GetOrCreateDirectory(testDir);
 
 			// Assert
 			Assert.AreEqual(newDir.Directory, testDir);
-			Assert.IsTrue(fileSystem.DirectoryExists(testDir));
+			Assert.IsTrue(_fileSystem.DirectoryExists(testDir));
 
-			DeleteTempTestDir(fileSystem);
+			DeleteTempTestDir(_fileSystem);
 		}
 
 		private static string DeleteTempTestDir(IFileSystem fileSystem) {
@@ -130,8 +142,7 @@ namespace UnitTests {
 		[TestMethod]
 		public void GetOrCreateGetsExistingDirectory() {
 			// Arrange
-			var fileSystem = new FileSystem();
-			string testDir = CreateTempTestDir(fileSystem);
+			string testDir = CreateTempTestDir(_fileSystem);
 
 			// Act
 
@@ -139,9 +150,9 @@ namespace UnitTests {
 
 			// Assert
 			Assert.AreEqual(newDir.Directory, testDir);
-			Assert.IsTrue(fileSystem.DirectoryExists(testDir));
+			Assert.IsTrue(_fileSystem.DirectoryExists(testDir));
 
-			DeleteTempTestDir(fileSystem);
+			DeleteTempTestDir(_fileSystem);
 		}
 
 		[TestMethod]
@@ -162,13 +173,12 @@ namespace UnitTests {
 		[DeploymentItem("TestData\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG", "TestData")]
 		public void RenameOnFilesThatWouldOverwriteLeavesOldFiles() {
 			// Arrange
-			var fileSystem = new FileSystem();
 
-			fileSystem.DeleteDirectoryAndAllFiles(TestConstants.ExistingDirectory);
-			fileSystem.CreateDirectory(TestConstants.ExistingDirectory);
-			fileSystem.CopyFile("TestData\\IMG_6867.JPG", TestConstants.ExistingDirectory + "\\IMG_6867.JPG");
-			fileSystem.CopyFile("TestData\\2013-05-29_19.39.18_COMPRESSED_6867.JPG", TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_COMPRESSED_6867.JPG");
-			fileSystem.CopyFile("TestData\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG",
+			_fileSystem.DeleteDirectoryAndAllFiles(TestConstants.ExistingDirectory);
+			_fileSystem.CreateDirectory(TestConstants.ExistingDirectory);
+			_fileSystem.CopyFile("TestData\\IMG_6867.JPG", TestConstants.ExistingDirectory + "\\IMG_6867.JPG");
+			_fileSystem.CopyFile("TestData\\2013-05-29_19.39.18_COMPRESSED_6867.JPG", TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_COMPRESSED_6867.JPG");
+			_fileSystem.CopyFile("TestData\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG",
 													TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG");
 
 			IPictureDirectory dir = _directoryFactory.GetDirectory(TestConstants.ExistingDirectory);
@@ -187,10 +197,9 @@ namespace UnitTests {
 		[TestMethod]
 		public void ProcessRenameOnAllFilesInDirectory() {
 			// Arrange
-			var fileSystem = new FileSystem();
 			IPictureDirectory dir = _directoryFactory.GetDirectory(TestConstants.ExistingDirectory);
 			IPictureDirectory newDir = _directoryFactory.GetOrCreateDirectory(TestConstants.NewDirectory);
-			//fileSystem.DeleteFile();
+			//_fileSystem.DeleteFile();
 			/*var oldFileList = dir.GetFileList();
 			List<string> expectedNewFile = new List<string>();
 			foreach (string oldFile in oldFileList) {
@@ -203,27 +212,26 @@ namespace UnitTests {
 			dir.RenameAllFiles(newDir);
 
 			//Assert
-			Assert.IsTrue(fileSystem.FileExists(TestConstants.ExistingTxtFullFileName));
-			Assert.IsTrue(!fileSystem.FileExists(TestConstants.ExistingDirectory + "\\" + TestConstants.ExistingJpgDesiredNewRenamedShortFileName));
-			Assert.IsTrue(!fileSystem.FileExists(TestConstants.NewDirectory + "\\" + TestConstants.ExistingJpgShortFileName));
-			Assert.IsTrue(fileSystem.FileExists(TestConstants.NewDirectory + "\\" + TestConstants.ExistingJpgDesiredNewRenamedShortFileName));
+			Assert.IsTrue(_fileSystem.FileExists(TestConstants.ExistingTxtFullFileName));
+			Assert.IsTrue(!_fileSystem.FileExists(TestConstants.ExistingDirectory + "\\" + TestConstants.ExistingJpgDesiredNewRenamedShortFileName));
+			Assert.IsTrue(!_fileSystem.FileExists(TestConstants.NewDirectory + "\\" + TestConstants.ExistingJpgShortFileName));
+			Assert.IsTrue(_fileSystem.FileExists(TestConstants.NewDirectory + "\\" + TestConstants.ExistingJpgDesiredNewRenamedShortFileName));
 		}
 
 		[TestMethod]
 		public void RenameAllFilesThrowsNoExceptionsOnExistingFile() {
 			// Arrange
-			var fileSystem = new FileSystem();
 			IPictureDirectory dir = _directoryFactory.GetDirectory(TestConstants.ExistingDirectory);
 			IPictureDirectory newDir = _directoryFactory.GetOrCreateDirectory(TestConstants.NewDirectory);
-			IFileHandler fileHandler = _fileFactory.GetFileHandler(TestConstants.ExistingJpgFullFileName);
+			IFileHandler fileHandler = _fileHandlerFactory.GetFileHandler(TestConstants.ExistingJpgFullFileName);
 			string newFullFileName = newDir.Directory + "\\" + fileHandler.GetNewRenamedFileName();
-			fileSystem.CopyFile(fileHandler.FileName, newFullFileName);
+			_fileSystem.CopyFile(fileHandler.FileName, newFullFileName);
 
 			// Act
 			dir.RenameAllFiles(newDir);
 
 			// Assert
-			Assert.IsTrue(fileSystem.FileExists(TestConstants.ExistingJpgFullFileName));
+			Assert.IsTrue(_fileSystem.FileExists(TestConstants.ExistingJpgFullFileName));
 		}
 
 		private string CreateTempTestDir(IFileSystem fileSystem) {

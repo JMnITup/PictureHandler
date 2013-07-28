@@ -10,6 +10,12 @@ namespace PictureHandlerLibrary.FileHandler {
 	public class FileHandlerFactory : IFileHandlerFactory {
 		private readonly IFileSystem _fileSystem = new FileSystem();
 
+		public FileHandlerFactory(IFileSystem fileSystem = null) {
+			if (fileSystem != null) {
+				_fileSystem = fileSystem;
+			}
+		}
+
 		#region Implementation of IFileHandlerFactory
 
 		public IFileHandler GetFileHandler(string fileName, IFileSystem fileSystem = null, ICompress compressor = null, IExifReader exifReader = null) {
