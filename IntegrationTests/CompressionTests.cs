@@ -66,7 +66,7 @@ namespace IntegrationTests {
 			var fileSystem = new FileSystem();
 			fileSystem.DeleteDirectoryAndAllFiles(TestConstants.NewDirectory);
 			fileSystem.DeleteDirectoryAndAllFiles(TestConstants.TempDirectory);
-			IFileHandler fileHandler = _fileHandlerFactory.GetFileHandler(TestConstants.ExistingJpgFullFileName);
+			IFileHandler fileHandler = _fileHandlerFactory.GetFileHandler(TestConstants.ExistingJpgFullFileName, fileSystem);
 			IPictureDirectory tempDir = _directoryFactory.GetOrCreateDirectory(TestConstants.TempDirectory);
 			IPictureDirectory newDir = _directoryFactory.GetOrCreateDirectory(TestConstants.NewDirectory);
 			string originalFileName = fileHandler.FileName;

@@ -50,7 +50,7 @@ namespace PictureHandlerLibrary {
 			string[] fileList = GetFileList();
 			foreach (string fileName in fileList) {
 				try {
-					IFileHandler handler = _fileHandlerFactory.GetFileHandler(fileName);
+					IFileHandler handler = _fileHandlerFactory.GetFileHandler(fileName, _fileSystem);
 					try {
 						string newFileName = handler.PerformRenameAndMove(targetDirectory);
 					} catch (IOException) {
@@ -65,7 +65,7 @@ namespace PictureHandlerLibrary {
 			string[] fileList = GetFileList();
 			foreach (string fileName in fileList) {
 				try {
-					IFileHandler handler = _fileHandlerFactory.GetFileHandler(fileName);
+					IFileHandler handler = _fileHandlerFactory.GetFileHandler(fileName, _fileSystem);
 					try {
 						string newFileName = handler.PerformCompressAndMove(targetDirectory);
 					} catch (IOException) {

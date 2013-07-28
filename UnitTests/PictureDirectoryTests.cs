@@ -167,18 +167,18 @@ namespace UnitTests {
 		}
 
 		[TestMethod]
-		[DeploymentItem("TestData\\IMG_6867.JPG", "TestData")]
-		[DeploymentItem("TestData\\2013-05-29_19.39.18_COMPRESSED_6867.JPG", "TestData")]
-		[DeploymentItem("TestData\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG", "TestData")]
+		//[DeploymentItem("TestData\\IMG_6867.JPG", "TestData")]
+		//[DeploymentItem("TestData\\2013-05-29_19.39.18_COMPRESSED_6867.JPG", "TestData")]
+		//[DeploymentItem("TestData\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG", "TestData")]
 		public void RenameOnFilesThatWouldOverwriteLeavesOldFiles() {
 			// Arrange
 
-			_fileSystem.DeleteDirectoryAndAllFiles(TestConstants.ExistingDirectory);
+			//_fileSystem.DeleteDirectoryAndAllFiles(TestConstants.ExistingDirectory);
 			_fileSystem.CreateDirectory(TestConstants.ExistingDirectory);
-			_fileSystem.CopyFile("TestData\\IMG_6867.JPG", TestConstants.ExistingDirectory + "\\IMG_6867.JPG");
-			_fileSystem.CopyFile("TestData\\2013-05-29_19.39.18_COMPRESSED_6867.JPG", TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_COMPRESSED_6867.JPG");
-			_fileSystem.CopyFile("TestData\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG",
-													 TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG");
+			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\IMG_6867.JPG", 1000000, new DateTime(2013, 5, 29, 19, 39, 18));
+			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_COMPRESSED_6867.JPG", 400000, new DateTime(2013, 5, 29, 19, 39, 18));
+			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\eula.1041.txt", 1000000, new DateTime());
+			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG", 100000, new DateTime(2013, 5, 29, 19, 39, 18));
 
 			IPictureDirectory dir = _directoryFactory.GetDirectory(TestConstants.ExistingDirectory);
 			IPictureDirectory newDir = _directoryFactory.GetOrCreateDirectory(TestConstants.NewDirectory);
@@ -196,6 +196,11 @@ namespace UnitTests {
 		[TestMethod]
 		public void ProcessRenameOnAllFilesInDirectory() {
 			// Arrange
+			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\IMG_6867.JPG", 1000000, new DateTime(2013, 5, 29, 19, 39, 18));
+			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_COMPRESSED_6867.JPG", 400000, new DateTime(2013, 5, 29, 19, 39, 18));
+			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\eula.1041.txt", 1000000, new DateTime());
+			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG", 100000, new DateTime(2013, 5, 29, 19, 39, 18));
+
 			IPictureDirectory dir = _directoryFactory.GetDirectory(TestConstants.ExistingDirectory);
 			IPictureDirectory newDir = _directoryFactory.GetOrCreateDirectory(TestConstants.NewDirectory);
 			//_fileSystem.DeleteFile();
@@ -220,9 +225,15 @@ namespace UnitTests {
 		[TestMethod]
 		public void RenameAllFilesThrowsNoExceptionsOnExistingFile() {
 			// Arrange
+			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\IMG_6867.JPG", 1000000, new DateTime(2013, 5, 29, 19, 39, 18));
+			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_COMPRESSED_6867.JPG", 400000, new DateTime(2013, 5, 29, 19, 39, 18));
+			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\eula.1041.txt", 1000000, new DateTime());
+			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG", 100000, new DateTime(2013, 5, 29, 19, 39, 18));
+
 			IPictureDirectory dir = _directoryFactory.GetDirectory(TestConstants.ExistingDirectory);
 			IPictureDirectory newDir = _directoryFactory.GetOrCreateDirectory(TestConstants.NewDirectory);
-			IFileHandler fileHandler = _fileHandlerFactory.GetFileHandler(TestConstants.ExistingJpgFullFileName);
+			IFileHandler fileHandler = _fileHandlerFactory.GetFileHandler(TestConstants.ExistingJpgFullFileName, _fileSystem, new MockCompress(_fileSystem),
+																																		new MockExifReader(_fileSystem));
 			string newFullFileName = newDir.Directory + "\\" + fileHandler.GetNewRenamedFileName();
 			_fileSystem.CopyFile(fileHandler.FileName, newFullFileName);
 

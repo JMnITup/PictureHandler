@@ -80,7 +80,7 @@ namespace UnitTests {
 			_fileSystem.AddFile(TestConstants.ExistingJpgFullFileName, 100000, new DateTime(2013, 5, 29, 19, 39, 18));
 
 			// Act
-			_fileHandlerFactory.GetFileHandler(TestConstants.NonExistingJpgFileNameInNonExistingDirectory);
+			_fileHandlerFactory.GetFileHandler(TestConstants.NonExistingJpgFileNameInNonExistingDirectory, _fileSystem);
 
 			// Assert
 			Assert.Fail();
