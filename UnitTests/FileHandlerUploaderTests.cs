@@ -40,6 +40,5 @@ namespace UnitTests {
 			fs.DeleteDirectoryAndAllFiles(TestConstants.NonExistingDirectory);
 		}
 		*/
-
 	}
 }

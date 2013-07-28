@@ -45,7 +45,6 @@ namespace UnitTests {
 		}
 		*/
 
-
 		[TestMethod]
 		public void FactoryGetDirectoryWithExistantDirReturnsDirectory() {
 			// Arrange
@@ -179,7 +178,7 @@ namespace UnitTests {
 			_fileSystem.CopyFile("TestData\\IMG_6867.JPG", TestConstants.ExistingDirectory + "\\IMG_6867.JPG");
 			_fileSystem.CopyFile("TestData\\2013-05-29_19.39.18_COMPRESSED_6867.JPG", TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_COMPRESSED_6867.JPG");
 			_fileSystem.CopyFile("TestData\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG",
-													TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG");
+													 TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG");
 
 			IPictureDirectory dir = _directoryFactory.GetDirectory(TestConstants.ExistingDirectory);
 			IPictureDirectory newDir = _directoryFactory.GetOrCreateDirectory(TestConstants.NewDirectory);

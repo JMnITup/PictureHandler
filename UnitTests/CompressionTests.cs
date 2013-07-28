@@ -2,7 +2,6 @@
 
 using System;
 using System.IO;
-using FileSystemLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MockFileSystemLibrary;
 using PictureHandlerLibrary;
@@ -50,7 +49,7 @@ namespace UnitTests {
 			// Arrange
 			var targetDirectory = new MockPictureDirectory {Directory = "\\mockdir"};
 
-			((MockFileSystem)_fileSystem).AddFile("\\mockdir\\test_RENAMED_2353.JPG", 100000);
+			(_fileSystem).AddFile("\\mockdir\\test_RENAMED_2353.JPG", 100000);
 
 			var mockCompressor = new MockCompress(_fileSystem);
 			var fileHandler = new JpgFileHandler("\\mockdir\\test_RENAMED_2353.JPG", fileSystem: _fileSystem, compressor: mockCompressor);
@@ -96,9 +95,9 @@ namespace UnitTests {
 			IFileHandler fileHandler = _fileHandlerFactory.GetFileHandler(TestConstants.ExistingJpgFullFileName, _fileSystem, new MockCompress(_fileSystem),
 																																		new MockExifReader(_fileSystem));
 			//IPictureDirectory tempDir = _directoryFactory.GetOrCreateDirectory(TestConstants.TempDirectory);
-			var tempDir = _directoryFactory.GetOrCreateDirectory(TestConstants.TempDirectory);
+			IPictureDirectory tempDir = _directoryFactory.GetOrCreateDirectory(TestConstants.TempDirectory);
 			//IPictureDirectory newDir = _directoryFactory.GetOrCreateDirectory(TestConstants.NewDirectory);
-			var newDir = _directoryFactory.GetOrCreateDirectory(TestConstants.NewDirectory);
+			IPictureDirectory newDir = _directoryFactory.GetOrCreateDirectory(TestConstants.NewDirectory);
 			string originalFileName = fileHandler.FileName;
 			string tempFileName = fileHandler.PerformRenameAndMove(tempDir);
 			string compressedFileName = fileHandler.PerformCompressAndMove(newDir);

@@ -163,7 +163,7 @@ namespace UnitTests {
 			IFileHandler handler = _fileHandlerFactory.GetFileHandler(TestConstants.ExistingJpgFullFileName, _fileSystem, new MockCompress(_fileSystem),
 																																new MockExifReader(_fileSystem));
 			//var newDir = new MockPictureDirectory {Directory = TestConstants.NewDirectory};
-			var newDir = _directoryFactory.GetDirectory(TestConstants.NewDirectory);
+			IPictureDirectory newDir = _directoryFactory.GetDirectory(TestConstants.NewDirectory);
 
 			// Act
 			handler.PerformRenameAndMove(newDir);
@@ -307,7 +307,7 @@ namespace UnitTests {
 			IFileHandler fileHandler = _fileHandlerFactory.GetFileHandler(TestConstants.ExistingJpgFullFileName, _fileSystem, new MockCompress(_fileSystem),
 																																		new MockExifReader(_fileSystem));
 
-			var newDir = _directoryFactory.GetOrCreateDirectory(TestConstants.NewDirectory);
+			IPictureDirectory newDir = _directoryFactory.GetOrCreateDirectory(TestConstants.NewDirectory);
 			fileHandler.PerformRenameAndMove(newDir);
 			fileHandler.PerformCompressAndMove(newDir);
 
