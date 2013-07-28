@@ -43,9 +43,9 @@ namespace IntegrationTests {
 		public void CompressingJpgResultsInSmallerFile() {
 			// Arrange
 			var fileSystem = new FileSystem();
-			string fileToCompress = TestConstants.ExistingJpgFullFileName;
+			const string fileToCompress = TestConstants.ExistingJpgFullFileName;
 			var compressor = new JpgCompressor();
-			string newFileName = "CompressedResult.jpg";
+			const string newFileName = "CompressedResult.jpg";
 
 			// Act
 			compressor.Compress(fileToCompress, newFileName);

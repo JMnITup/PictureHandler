@@ -1,13 +1,4 @@
-﻿// /*
-// JamesM
-// 2013 06 13 9:32 PM
-// 2013 06 14 12:09 PM
-// Program.cs
-// PictureHandler
-// PictureHandler
-// */
-
-#region
+﻿#region
 
 using System;
 using System.Windows.Forms;

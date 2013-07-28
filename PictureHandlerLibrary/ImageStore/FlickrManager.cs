@@ -58,7 +58,7 @@ namespace PictureHandlerLibrary.ImageStore {
 
 			Process.Start(url);
 			// TODO: This is not interactive at the moment, must be handled via debug session
-			string verificationNumber = "609-378-579";
+			const string verificationNumber = "609-378-579";
 
 			OAuthAccessToken accessToken = f.OAuthGetAccessToken(requestToken, verificationNumber);
 			OAuthToken = accessToken;

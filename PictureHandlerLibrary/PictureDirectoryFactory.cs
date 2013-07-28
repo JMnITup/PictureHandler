@@ -1,17 +1,12 @@
-// /*
-// JamesM
-// 2013 06 13 11:34 PM
-// 2013 06 14 12:09 PM
-// PictureDirectoryFactory.cs
-// PictureHandler
-// PictureHandler
-// */
-
 #region
 
 #endregion
 
+#region
+
 using FileSystemLibrary;
+
+#endregion
 
 namespace PictureHandlerLibrary {
 	public class PictureDirectoryFactory : IPictureDirectoryFactory {

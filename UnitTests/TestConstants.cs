@@ -1,13 +1,4 @@
-﻿// /*
-// JamesM
-// 2013 06 14 3:09 AM
-// 2013 06 14 12:09 PM
-// TestConstants.cs
-// UnitTests
-// PictureHandler
-// */
-
-namespace UnitTests {
+﻿namespace UnitTests {
 	public class TestConstants {
 		public const string ExistingDirectory = "ExistingDirectory";
 		public const string NonExistingDirectory = "NonExistantTestData";

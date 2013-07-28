@@ -63,7 +63,7 @@ namespace IntegrationTests {
 		public void UploadPrivateImageToFlickr() {
 			// Arrange
 			Flickr flickr = FlickrManager.GetAuthInstance();
-			string imageName = TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG";
+			const string imageName = TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG";
 
 			// Act
 			string result = flickr.UploadPicture(imageName, "test", "testing", "", false, false, false);
@@ -81,7 +81,7 @@ namespace IntegrationTests {
 		public void UploadImageReturnsString() {
 			// Arrange
 			IFlickrManager flickr = new FlickrManager();
-			string imageName = TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG";
+			const string imageName = TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG";
 
 			// Act
 			string result = flickr.UploadPhoto(imageName, "test", "testing", "", false, false, false);

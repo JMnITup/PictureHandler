@@ -21,9 +21,8 @@ namespace UnitTests.MockClasses {
 			DateTime? nullableDateTime = ((MockFileSystem) _fileSystem).GetMockExifData(fileName);
 			if (nullableDateTime == null) {
 				return DateTime.MinValue;
-			} else {
-				return (DateTime) nullableDateTime;
 			}
+			return (DateTime) nullableDateTime;
 		}
 
 		#endregion

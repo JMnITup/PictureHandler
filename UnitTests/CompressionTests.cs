@@ -45,8 +45,7 @@ namespace UnitTests {
 		[TestMethod]
 		public void PerformCompressAndMoveRemovesOldFileAndCreatesNew() {
 			// Arrange
-			var targetDirectory = new MockPictureDirectory();
-			targetDirectory.Directory = "\\mockdir";
+			var targetDirectory = new MockPictureDirectory {Directory = "\\mockdir"};
 
 			IFileSystem fileSystem = new MockFileSystem();
 			((MockFileSystem) fileSystem).AddFile("\\mockdir\\test_RENAMED_2353.JPG", 100000);
@@ -139,7 +138,7 @@ namespace UnitTests {
 			// Arrange
 			var fileSystem = new MockFileSystem();
 			fileSystem.AddFile(TestConstants.ExistingJpgFullFileName, 100000, new DateTime(2013, 5, 29, 19, 39, 18));
-			string movedFileName = TestConstants.ExistingDirectory + "\\0000-00-00_00.00.00_RENAMED_6867.JPG";
+			const string movedFileName = TestConstants.ExistingDirectory + "\\0000-00-00_00.00.00_RENAMED_6867.JPG";
 			fileSystem.MoveFile(TestConstants.ExistingJpgFullFileName, movedFileName);
 			IFileHandler fileHandler = _fileHandlerFactory.GetFileHandler(movedFileName, fileSystem, new MockCompress(fileSystem), new MockExifReader(fileSystem));
 			var newDir = new MockPictureDirectory {Directory = TestConstants.NewDirectory};

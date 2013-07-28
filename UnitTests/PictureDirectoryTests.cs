@@ -1,13 +1,4 @@
-﻿// /*
-// JamesM
-// 2013 06 13 9:42 PM
-// 2013 06 14 12:09 PM
-// PictureDirectoryTests.cs
-// UnitTests
-// PictureHandler
-// */
-
-#region
+﻿#region
 
 using System;
 using System.IO;
