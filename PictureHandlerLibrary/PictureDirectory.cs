@@ -9,19 +9,23 @@ using PictureHandlerLibrary.FileHandler;
 
 namespace PictureHandlerLibrary {
 	public class PictureDirectory : IPictureDirectory {
+		private readonly IExifReader _exifReader = new ExifReaderManager();
 		private readonly IFileHandlerFactory _fileHandlerFactory = new FileHandlerFactory();
 		private readonly IFileSystem _fileSystem = new FileSystem();
 		private readonly PictureDirectoryFactory _pictureDirectoryFactory = new PictureDirectoryFactory();
 		private string _directory;
 
-		internal PictureDirectory(string directory = null, IFileSystem fileSystem = null) {
+		internal PictureDirectory(string directory = null, IFileSystem fileSystem = null, IExifReader exifReader = null) {
 			if (directory == null) {
 				throw new ArgumentNullException("directory");
 			}
 			if (fileSystem != null) {
 				_fileSystem = fileSystem;
-				_pictureDirectoryFactory = new PictureDirectoryFactory(fileSystem);
+				_pictureDirectoryFactory = new PictureDirectoryFactory(fileSystem, exifReader);
 				_fileHandlerFactory = new FileHandlerFactory(fileSystem);
+			}
+			if (exifReader != null) {
+				_exifReader = exifReader;
 			}
 			Directory = directory;
 		}
@@ -50,7 +54,7 @@ namespace PictureHandlerLibrary {
 			string[] fileList = GetFileList();
 			foreach (string fileName in fileList) {
 				try {
-					IFileHandler handler = _fileHandlerFactory.GetFileHandler(fileName, _fileSystem);
+					IFileHandler handler = _fileHandlerFactory.GetFileHandler(fileName, _fileSystem, null, _exifReader);
 					try {
 						string newFileName = handler.PerformRenameAndMove(targetDirectory);
 					} catch (IOException) {
@@ -65,7 +69,7 @@ namespace PictureHandlerLibrary {
 			string[] fileList = GetFileList();
 			foreach (string fileName in fileList) {
 				try {
-					IFileHandler handler = _fileHandlerFactory.GetFileHandler(fileName, _fileSystem);
+					IFileHandler handler = _fileHandlerFactory.GetFileHandler(fileName, _fileSystem, null, _exifReader);
 					try {
 						string newFileName = handler.PerformCompressAndMove(targetDirectory);
 					} catch (IOException) {

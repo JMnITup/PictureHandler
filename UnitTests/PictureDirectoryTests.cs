@@ -12,9 +12,8 @@ using UnitTests.MockClasses;
 #endregion
 
 namespace UnitTests {
+	// TODO: In all classes, delete MockPictureDirectory and fix all tests to run with it
 	[TestClass]
-	//[DeploymentItem("TestData\\eula.1041.txt", "TestData")]
-	//[DeploymentItem("TestData\\IMG_6867.JPG", "TestData")]
 	public class PictureDirectoryTests {
 		private IPictureDirectoryFactory _directoryFactory = new PictureDirectoryFactory();
 		private IFileHandlerFactory _fileHandlerFactory = new FileHandlerFactory();
@@ -23,27 +22,10 @@ namespace UnitTests {
 		[TestInitialize]
 		public void MyTestInitialize() {
 			_fileSystem = new MockFileSystem();
-			_directoryFactory = new PictureDirectoryFactory(_fileSystem);
+			var mockExifReader = new MockExifReader(_fileSystem);
+			_directoryFactory = new PictureDirectoryFactory(_fileSystem, mockExifReader);
 			_fileHandlerFactory = new FileHandlerFactory(_fileSystem);
-			/*var fs = new FileSystem();
-			fs.DeleteDirectoryAndAllFiles(TestConstants.ExistingDirectory);
-			fs.DeleteDirectoryAndAllFiles(TestConstants.NewDirectory);
-			fs.DeleteDirectoryAndAllFiles(TestConstants.TempDirectory);
-			fs.DeleteDirectoryAndAllFiles(TestConstants.NonExistingDirectory);
-			fs.CreateDirectory(TestConstants.ExistingDirectory);
-			fs.CopyFiles("TestData", TestConstants.ExistingDirectory);*/
 		}
-
-		/*
-		[ClassCleanup]
-		public static void MyClassCleanup() {
-			var fs = new FileSystem();
-			fs.DeleteDirectoryAndAllFiles(TestConstants.ExistingDirectory);
-			fs.DeleteDirectoryAndAllFiles(TestConstants.NewDirectory);
-			fs.DeleteDirectoryAndAllFiles(TestConstants.TempDirectory);
-			fs.DeleteDirectoryAndAllFiles(TestConstants.NonExistingDirectory);
-		}
-		*/
 
 		[TestMethod]
 		public void FactoryGetDirectoryWithExistantDirReturnsDirectory() {
@@ -75,8 +57,9 @@ namespace UnitTests {
 		public void GetFileListFromPictureDirectoryUsingExistingDirectoryWithFiles_HasEntries() {
 			// Arrange
 			_fileSystem.CreateDirectory(TestConstants.ExistingDirectory);
+			_fileSystem.AddFile(TestConstants.ExistingJpgFullFileName, 100, new DateTime());
 
-			var dir = new MockPictureDirectory {Directory = TestConstants.ExistingDirectory};
+			IPictureDirectory dir = _directoryFactory.GetDirectory(TestConstants.ExistingDirectory);
 
 			// Act 
 			//IPictureDirectory dir = _directoryFactory.GetDirectory(TestConstants.ExistingDirectory);
@@ -177,7 +160,7 @@ namespace UnitTests {
 			_fileSystem.CreateDirectory(TestConstants.ExistingDirectory);
 			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\IMG_6867.JPG", 1000000, new DateTime(2013, 5, 29, 19, 39, 18));
 			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_COMPRESSED_6867.JPG", 400000, new DateTime(2013, 5, 29, 19, 39, 18));
-			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\eula.1041.txt", 1000000, new DateTime());
+			//_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\eula.1041.txt", 1000000, new DateTime());
 			_fileSystem.AddFile(TestConstants.ExistingDirectory + "\\2013-05-29_19.39.18_SUPERCOMPRESSED_6867.JPG", 100000, new DateTime(2013, 5, 29, 19, 39, 18));
 
 			IPictureDirectory dir = _directoryFactory.GetDirectory(TestConstants.ExistingDirectory);
