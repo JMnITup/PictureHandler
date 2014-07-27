@@ -18,65 +18,67 @@ using PictureHandlerLibrary;
 #endregion
 
 namespace PictureHandler {
-	public partial class Form1 : Form {
-		public Form1() {
-			InitializeComponent();
-		}
+    public partial class Form1 : Form {
+        public Form1() {
+            InitializeComponent();
+        }
 
-		private void tbToConvertFolder_TextChanged(object sender, EventArgs e) {}
+        private void tbToConvertFolder_TextChanged(object sender, EventArgs e) {}
 
-		private void btnProcessRawInput_Click(object sender, EventArgs e) {
-			var pictureDirectoryFactory = new PictureDirectoryFactory();
-			IPictureDirectory rawDirectory = null;
-			bool readyToProcess = true;
-			try {
-				rawDirectory = pictureDirectoryFactory.GetDirectory(tbRawInputFolder.Text);
-				tbRawInputFolder.BackColor = DefaultBackColor;
-			} catch (DirectoryNotFoundException ex) {
-				tbRawInputFolder.BackColor = Color.Red;
+        private void btnProcessRawInput_Click(object sender, EventArgs e) {
+            var pictureDirectoryFactory = new PictureDirectoryFactory();
+            IPictureDirectory rawDirectory = null;
+            bool readyToProcess = true;
+            try {
+                rawDirectory = pictureDirectoryFactory.GetDirectory(tbRawInputFolder.Text);
+                tbRawInputFolder.BackColor = DefaultBackColor;
+            } catch (DirectoryNotFoundException ex) {
+                tbRawInputFolder.BackColor = Color.Red;
 
-				readyToProcess = false;
-				return;
-			}
-			IPictureDirectory renameDirectory = null;
-			try {
-				renameDirectory = pictureDirectoryFactory.GetOrCreateDirectory(tbRenamedFolder.Text);
-				tbRawInputFolder.BackColor = DefaultBackColor;
-			} catch (DirectoryNotFoundException ex) {
-				tbRawInputFolder.BackColor = Color.Red;
-				readyToProcess = false;
-			}
+                readyToProcess = false;
+                return;
+            }
+            IPictureDirectory renameDirectory = null;
+            try {
+                renameDirectory = pictureDirectoryFactory.GetOrCreateDirectory(tbRenamedFolder.Text);
+                tbRawInputFolder.BackColor = DefaultBackColor;
+            } catch (DirectoryNotFoundException ex) {
+                tbRawInputFolder.BackColor = Color.Red;
+                readyToProcess = false;
+            }
 
-			if (readyToProcess) {
-				rawDirectory.RenameAllFiles(renameDirectory);
-			}
-		}
+            if (readyToProcess) {
+                rawDirectory.RenameAllFiles(renameDirectory, true);
+            }
+        }
 
-		private void btnProcessRenamed_Click(object sender, EventArgs e) {
-			var directoryFactory = new PictureDirectoryFactory();
-			IPictureDirectory renamedDirectory = null;
-			bool readyToProcess = true;
-			try {
-				renamedDirectory = directoryFactory.GetDirectory(tbRenamedFolder.Text);
-				tbRenamedFolder.BackColor = DefaultBackColor;
-			} catch (DirectoryNotFoundException ex) {
-				tbRenamedFolder.BackColor = Color.Red;
+        private void btnProcessRenamed_Click(object sender, EventArgs e) {
+            var directoryFactory = new PictureDirectoryFactory();
+            IPictureDirectory renamedDirectory = null;
+            bool readyToProcess = true;
+            try {
+                renamedDirectory = directoryFactory.GetDirectory(tbRenamedFolder.Text);
+                tbRenamedFolder.BackColor = DefaultBackColor;
+            } catch (DirectoryNotFoundException ex) {
+                tbRenamedFolder.BackColor = Color.Red;
 
-				readyToProcess = false;
-				return;
-			}
-			IPictureDirectory resizedDirectory = null;
-			try {
-				resizedDirectory = directoryFactory.GetOrCreateDirectory(tbResizedFolder.Text);
-				tbRawInputFolder.BackColor = DefaultBackColor;
-			} catch (DirectoryNotFoundException ex) {
-				tbRawInputFolder.BackColor = Color.Red;
-				readyToProcess = false;
-			}
+                readyToProcess = false;
+                return;
+            }
+            IPictureDirectory resizedDirectory = null;
+            try {
+                resizedDirectory = directoryFactory.GetOrCreateDirectory(tbResizedFolder.Text);
+                tbRawInputFolder.BackColor = DefaultBackColor;
+            } catch (DirectoryNotFoundException ex) {
+                tbRawInputFolder.BackColor = Color.Red;
+                readyToProcess = false;
+            }
 
-			if (readyToProcess) {
-				renamedDirectory.ResizeAllFiles(resizedDirectory);
-			}
-		}
-	}
+            if (readyToProcess) {
+                renamedDirectory.ResizeAllFiles(resizedDirectory);
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e) {}
+    }
 }
