@@ -10,8 +10,17 @@
         public const string ExistingJpgFullFileName = ExistingDirectory + @"\" + ExistingJpgShortFileName;
         public const string ExistingJpgDesiredNewRenamedShortFileName = "2013-05-29_19.39.18_RENAMED_6867.JPG";
         public const string ExistingJpgDesiredNewCompressedShortFileName = "2013-05-29_19.39.18_COMPRESSED_6867.JPG";
+
+        public const string ExistingMovShortFileName = @"\IMG_6867.MOV";
+        public const string ExistingMovFullFileName = ExistingDirectory + @"\" + ExistingMovShortFileName;
+        public const string ExistingMovDesiredNewRenamedShortFileName = "2013-05-29_19.39.18_RENAMED_6867.MOV";
+        //public const string ExistingMovDesiredNewCompressedShortFileName = "2013-05-29_19.39.18_COMPRESSED_6867.JPG";
+
         public const string ExistingTxtFullFileName = ExistingDirectory + @"\eula.1041.txt";
         public const string NonExistingJpgFileNameInExistingDirectory = ExistingDirectory + @"\IMG_6136.JPG";
         public const string NonExistingJpgFileNameInNonExistingDirectory = NonExistingDirectory + @"\IMG_6136.JPG";
+
+        public const string NonExistingMovFileNameInExistingDirectory = ExistingDirectory + @"\IMG_6136.MOV";
+        public const string NonExistingMovFileNameInNonExistingDirectory = NonExistingDirectory + @"\IMG_6136.MOV";
     }
 }

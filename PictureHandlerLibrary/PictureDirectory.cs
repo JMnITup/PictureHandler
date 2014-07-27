@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using FileSystemLibrary;
@@ -58,11 +59,14 @@ namespace PictureHandlerLibrary {
                     IFileHandler handler = _fileHandlerFactory.GetFileHandler(fileName, _fileSystem, null, _exifReader);
                     try {
                         string newFileName = handler.PerformRenameAndMove(targetDirectory);
-                    } catch (IOException) {
+                    } catch (IOException ex) {
+                        Debug.WriteLine(ex.Message + " '" + fileName + "'");
                         // this file could not be moved - move to the next
                         // TODO: log issue
                     }
-                } catch (NotImplementedException) {}
+                } catch (NotImplementedException ex) {
+                    Debug.WriteLine(ex.Message + " '" + fileName + "'");
+                }
             }
             if (recursive) {
                 string[] dirList = GetDirectoriesList();

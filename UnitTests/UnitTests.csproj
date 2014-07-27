@@ -52,6 +52,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="FileHanderRenameMovTests.cs" />
     <Compile Include="FileHandlerUploaderTests.cs" />
     <Compile Include="FileHanderRenameTests.cs" />
     <Compile Include="MockClasses\MockCompress.cs" />

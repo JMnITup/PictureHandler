@@ -2,6 +2,7 @@
 
 using System;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using ExifLib;
@@ -23,14 +24,17 @@ namespace PictureHandlerLibrary.FileHandler {
                 datePart = ExifReader.GetOriginalDateTimeFormattedString(FileName);
             } catch (ExifLibException ex) {
                 if (ex.Message.Contains("Could not find Exif data block")) {
+                    Debug.WriteLine("File '" + FileName + "' does not contain Exif block");
                     throw new FileLoadException("File '" + FileName + "' does not contain Exif block");
                 }
             } catch (EvaluateException ex) {
                 if (ex.Message.Contains("Picture Original DateTime") && ex.Message.Contains("outside of accepted range")) {
+                    Debug.WriteLine("File '" + FileName + "' has Exif block, but refers to invalid date");
                     throw new FileLoadException("File '" + FileName + "' has Exif block, but refers to invalid date");
                 }
             } catch (FormatException ex) {
                 if (ex.Message.Contains("String was not recognized as a valid DateTime")) {
+                    Debug.WriteLine("Invalid datetime for file '" + FileName + "'");
                     throw new FileLoadException("Invalid datetime for file '" + FileName + "'");
                 }
             }
@@ -82,6 +86,7 @@ namespace PictureHandlerLibrary.FileHandler {
             string originalFileName = FileName;
             Match namePart = Regex.Match(FileName, @"\\([^\\]*)_" + RenamedIdentifier + @"_([0-9]{4}\.jpg)", RegexOptions.IgnoreCase);
             if (namePart.Groups.Count <= 1) {
+                Debug.WriteLine("Attempt to compress un-matching named file '" + FileName + "'");
                 throw new FileLoadException("Can only compress renamed files");
             }
             string shortOriginalFileName = namePart.Groups[1] + "_" + RenamedIdentifier + "_" + namePart.Groups[2];
@@ -89,6 +94,7 @@ namespace PictureHandlerLibrary.FileHandler {
             //string expectedName = datePart + "_JM" + namePart.Groups[2];
             string compressedFileName = targetDirectory.Directory + "\\" + shortNewFileName;
             if (FileSystem.FileExists(compressedFileName)) {
+                Debug.WriteLine("File already exists in target location '" + FileName + "'");
                 throw new IOException("File already exists in target location: " + compressedFileName);
             }
 
